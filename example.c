@@ -1,3 +1,5 @@
+// clang -Wall -Wextra -Og -g3 -fsanitize=undefined -fsanitize=address -fno-omit-frame-pointer -fsanitize=unsigned-integer-overflow -DDEBUG -DARENALLOC_STATS example.c -o example
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +8,9 @@
 arena_t a;
 
 int main() {
-	a = arena_new_least((arena_malfre_t){malloc, free}, 20);
+	//a = arena_new((arena_malfre_t){malloc, free}); // 1 mem page / blk
+	//a = arena_new_s((arena_malfre_t){malloc, free}, 128); // 128b of data /blk
+	a = arena_new_v((arena_malfre_t){malloc, free}); // 1 blk / alloc
 
 	char str[24], *prev;
 	int n;
