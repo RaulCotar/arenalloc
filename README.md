@@ -1,5 +1,5 @@
 # arenalloc
-A simple arena allocator in C, `arenalloc` started off in the [Squid-lang](https://github.com/RaulCotar/Squid-lang) codebase, but has become a stanalone single file library. Current version is 1.0.0.
+A simple arena allocator in C, `arenalloc` started off in the [Squid-lang](https://github.com/RaulCotar/Squid-lang) codebase, but has become a stanalone single file library. Current version is 1.1.1.
 
 ## Goal
 `arenalloc` aims to be simple and decently fast and versatile to be used in small and medium size-sized projects. Memory safety is also an importatnt concern (it's an allocator after all), and currently no bugs or memory leaks are known (tested with example.c, UBSan and ASan).
