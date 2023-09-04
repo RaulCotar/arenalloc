@@ -9,7 +9,9 @@
  *  Every allocation allocates a contiguous memory range, and thus all
  * allocations must be smaller the block size. This implementation also supports
  * variable block sizes that guarrantee 1 block/allocation (so it becomes a
- * linked list allocator).
+ * linked list allocator). In general you should either use the variable mode,
+ * or have a block size significantly larger than that of individual allocations
+ * . Arena block sizes can be changed at any time by setting `arena.blk_size`.
  *
  *   In general, you can only free an entire block at a time, but this
  * implementation also supports freeing the last N allocated bytes in an arena.
@@ -73,8 +75,9 @@ typedef struct {
 	#endif
 } arena_t;
 
-// New arena of the same block size as the system page size.
-arena_t arena_new(arena_malfre_t mf);
+#define arena_new arena_new_p
+// New arena with blocks that perfectly fit a virtual memory page.
+arena_t arena_new_p(void);
 // New arena with a variable block size: one block per allocation.
 arena_t arena_new_v(arena_malfre_t mf);
 // New arena of arbitrary block size.
@@ -89,8 +92,10 @@ arena_t *arena_free(arena_t *arena);
 // Free tha last commited block.
 arena_t *arena_free_last_blk(arena_t *a);
 // Free the last `size` bytes allocated in the arena. Emptied blocks are freed.
-// Does not cross block boundaries, but emptied blocks are freed.
 // Returns the number of bytes deallocated. (!=size iff trying to free too much)
+// Does not cross block boundaries, but emptied blocks are freed. To deallocate
+// more memory than what is currently stored in the end block, call this
+// function multiple times with its own return value until it returns 0.
 size_t arena_free_bytes(size_t size, arena_t *arena);
 
 // Allocate memory in an arena; malloc equivalent.

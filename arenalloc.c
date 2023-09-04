@@ -1,4 +1,5 @@
 // SEE LICENSE AT THE BOTTOM
+#include <stdlib.h>
 #include <unistd.h>
 
 #ifdef DEBUG
@@ -85,8 +86,13 @@ arena_blk_t *_arena_get_free_blk(size_t least, arena_t *a) {
 	else return NULL;
 }
 
-arena_t arena_new(arena_malfre_t mf) {
-	return arena_new_s(mf, sysconf(_SC_PAGESIZE) - sizeof(arena_blk_t));
+void *_aligned_alloc(size_t size_and_alignment) {
+	return aligned_alloc(size_and_alignment, size_and_alignment);
+}
+
+arena_t arena_new_p(void) {
+	return arena_new_s((arena_malfre_t){_aligned_alloc, free},
+		sysconf(_SC_PAGESIZE) - sizeof(arena_blk_t));
 }
 
 arena_t arena_new_v(arena_malfre_t mf) {

@@ -14,7 +14,9 @@ Documentation can be found inside [arenalloc.h](./arenalloc.h). The following is
  *  Every allocation allocates a contiguous memory range, and thus all
  * allocations must be smaller the block size. This implementation also supports
  * variable block sizes that guarrantee 1 block/allocation (so it becomes a
- * linked list allocator).
+ * linked list allocator). In general you should either use the variable mode,
+ * or have a block size significantly larger than that of individual allocations
+ * . Arena block sizes can be changed at any time by setting `arena.blk_size`.
  *
  *   In general, you can only free an entire block at a time, but this
  * implementation also supports freeing the last N allocated bytes in an arena.
@@ -35,11 +37,12 @@ Documentation can be found inside [arenalloc.h](./arenalloc.h). The following is
 */
 ```
 
-## Planned features
-- better support for different backends
-- snapshot system
-- defragmentation system
+## Future features under consideration
+- thread safety
 - proper testing
+- block data allignment options
+- better support for different backends (or even a native one with syscalls)
+- defragmentation system
 
 ## Compiling
 All you need to do in compile `arenalloc.c` with a compiler that supports `gnu89`.
