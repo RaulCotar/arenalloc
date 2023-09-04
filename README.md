@@ -1,11 +1,17 @@
 # arenalloc
-A simple arena allocator in C, `arenalloc` started off in the [Squid-lang](https://github.com/RaulCotar/Squid-lang) codebase, but has become a stanalone single file library. Current version is 1.1.1.
+A simple arena allocator in C, `arenalloc` started off in the
+[Squid-lang](https://github.com/RaulCotar/Squid-lang) codebase, but has become a
+stanalone single file library. Current version is 1.1.2.
 
 ## Goal
-`arenalloc` aims to be simple and decently fast and versatile to be used in small and medium size-sized projects. Memory safety is also an importatnt concern (it's an allocator after all), and currently no bugs or memory leaks are known (tested with example.c, UBSan and ASan).
+`arenalloc` aims to be simple and decently fast and versatile to be used in
+small and medium size-sized projects. Memory safety is also an importatnt
+concern (it's an allocator after all), and currently no bugs or memory leaks are
+known (tested with example.c, UBSan and ASan).
 
 ## Documentation
-Documentation can be found inside [arenalloc.h](./arenalloc.h). The following is an excerpt from the top of the file:
+Documentation can be found inside [arenalloc.h](./arenalloc.h).
+The following is an excerpt from the top of the file:
 ```c
 /*   Arena allocator - commissions memory blocks from the OS and uses them to
  * allocate memory for the program. Freed blocks are not returned to the OS
@@ -32,10 +38,13 @@ Documentation can be found inside [arenalloc.h](./arenalloc.h). The following is
  * Macro config:
  *	 ARENALLOC_ASSERT - controls the `assert` function used (`assert` by def)
  *	 ARENALLOC_STATS - keep allocation statistics per arena (undef by default)
- *	 ARENALLOC_DEF_ARENA - declare a static arena and macro  function wrappers
- * to use it by default. (undefined by default)
+ *	 ARENALLOC_DEF_ARENA - declare a static arena and macro function wrappers
+ * to use it wihthout havin to pass it around yourself. (undefined by default)
 */
 ```
+For more information (especially statistics) see the definition of `arena_t` and
+the implementation of different functions (basically just read the code - it's
+not that complicated).
 
 ## Future features under consideration
 - thread safety
@@ -45,8 +54,9 @@ Documentation can be found inside [arenalloc.h](./arenalloc.h). The following is
 - defragmentation system
 
 ## Compiling
-All you need to do in compile `arenalloc.c` with a compiler that supports `gnu89`.
-An example compile command can be found at the top of [example.c](./example.c).
+All you need to do in compile [arenalloc.c](./arenalloc.c) with a compiler that
+supports `gnu89`. An example compile command can be found at the top of
+[example.c](./example.c).
 
 ## Licensing
 `arenalloc` is destributed under the MIT license. See [LICENSE](./LICENSE).

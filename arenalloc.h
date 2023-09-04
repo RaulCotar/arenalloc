@@ -67,6 +67,7 @@ typedef struct {
 		size_t cur_bytes; 		// current bytes allocated (without wasted ones)
 		size_t tot_bytes;		// total bytes allocated
 		size_t tot_allocs;		// total number of allocations
+		double avg_alloc_sz;	// average allocation size (in bytes)
 		unsigned int blk_live;	// current nr of committed live (in use) blocks
 		unsigned int blk_free; 	// current nr of committed free blocks
 		unsigned int blk_decom;	// total nr of decommitted blocks
@@ -87,9 +88,9 @@ arena_t arena_new_least(arena_malfre_t mf, size_t least);
 
 // Free and decommit all blocks in the arena.
 arena_t *arena_decom(arena_t *arena);
-// Free (not decommit) all block in the arena.
+// Free (not decommit) all blocks in the arena.
 arena_t *arena_free(arena_t *arena);
-// Free tha last commited block.
+// Free the 'end' block.
 arena_t *arena_free_last_blk(arena_t *a);
 // Free the last `size` bytes allocated in the arena. Emptied blocks are freed.
 // Returns the number of bytes deallocated. (!=size iff trying to free too much)

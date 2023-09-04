@@ -209,6 +209,7 @@ void *arena_alloc(size_t size, arena_t *a) {
 	#ifdef ARENALLOC_STATS
 	a->cur_bytes += size;
 	a->tot_bytes += size;
+	a->avg_alloc_sz = (a->avg_alloc_sz*(a->tot_allocs-1)+size)/a->tot_allocs;
 	#endif
 	return a->head - size;
 }
@@ -236,11 +237,11 @@ void arena_print(arena_t *a, char *name) {
 	}
 	#ifdef ARENALLOC_STATS
 	printf("cur_live_size: %lu\ncur_free_size: %lu\npeak_com_size: %lu\n"
-		"tot_alloc: %lu\ncur_bytes: %lu\ntot_bytes: %lu\nblk_live: %u\n"
-		"blk_free: %u\nblk_decom: %u\nblk_peak: %u\ncomputed sanity: %i\n\n",
-		a->cur_live_size, a->cur_free_size, a->peak_com_size, a->tot_allocs,
-		a->cur_bytes, a->tot_bytes, a->blk_live, a->blk_free, a->blk_decom,
-		a->blk_peak, arena_sanity_check(a));
+		"tot_alloc: %lu\navg_alloc_sz: %lf\ncur_bytes: %lu\ntot_bytes: %lu\n"
+		"blk_live: %u\nblk_free: %u\nblk_decom: %u\nblk_peak: %u\ncomputed "
+		"sanity: %i\n\n", a->cur_live_size, a->cur_free_size, a->peak_com_size,
+		a->tot_allocs, a->avg_alloc_sz, a->cur_bytes, a->tot_bytes, a->blk_live,
+		a->blk_free, a->blk_decom,a->blk_peak, arena_sanity_check(a));
 	#else
 	puts("Define ARENALLOC_STATS to enable arena statistics.");
 	#endif
@@ -289,6 +290,8 @@ int arena_sanity_check(arena_t *a) {
 	if (fr != a->blk_free) return -14;
 	if (cs != a->cur_free_size) return -15;
 	if (a->peak_com_size < a->cur_live_size + a->cur_free_size) return -16;
+	if ((a->avg_alloc_sz != 0 && !a->tot_allocs)
+		|| a->avg_alloc_sz > a->tot_bytes) return -17;
 	#endif
 	return 0;
 }
