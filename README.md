@@ -1,7 +1,7 @@
 # arenalloc
 A simple arena allocator in C, `arenalloc` started off in the
 [Squid-lang](https://github.com/RaulCotar/Squid-lang) codebase, but has become a
-stanalone single file library. Current version is 1.1.2.
+stanalone single file library. Current version is 1.1.3.
 
 ## Goal
 `arenalloc` aims to be simple and decently fast and versatile to be used in
@@ -33,7 +33,7 @@ The following is an excerpt from the top of the file:
  * malloc implementations provided by Clang and GCC on x64 Linux.
  *
  *  arenalloc is modular and easily extendable if more features are desired down
- * the road.
+ * the road. Also, have I mentioned it has a print function?!
  *
  * Macro config:
  *	 ARENALLOC_ASSERT - controls the `assert` function used (`assert` by def)
@@ -42,16 +42,16 @@ The following is an excerpt from the top of the file:
  * to use it wihthout havin to pass it around yourself. (undefined by default)
 */
 ```
-For more information (especially statistics) see the definition of `arena_t` and
-the implementation of different functions (basically just read the code - it's
-not that complicated).
+For more informations (especially about arena stats) see the definition of
+`arena_t` and the implementation of different functions (basically just read the
+code - it's not that complicated).
 
 ## Future features under consideration
 - thread safety
 - proper testing
 - block data allignment options
 - better support for different backends (or even a native one with syscalls)
-- defragmentation system
+- defragmentation system (block splitting/merging, 1 head/block)
 
 ## Compiling
 All you need to do in compile [arenalloc.c](./arenalloc.c) with a compiler that

@@ -1,3 +1,5 @@
 -xc
+-Wall
+-Wextra
 -DDEBUG
 -DARENALLOC_STATS

@@ -1,7 +1,6 @@
 // clang -Wall -Wextra -Og -g3 -fsanitize=undefined -fsanitize=address -fno-omit-frame-pointer -fsanitize=unsigned-integer-overflow -DDEBUG -DARENALLOC_STATS example.c arenalloc.c -o example
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "arenalloc.h"
 

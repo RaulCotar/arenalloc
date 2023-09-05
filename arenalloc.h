@@ -113,7 +113,14 @@ void arena_print(arena_t *a, char *name);
 
 #ifdef ARENALLOC_DEF_ARENA
 extern arena_t _def_arena;
-// TODO: declare macros for using _def_arena without mentioning it
+#define arena_decom_d() arena_decom(&_def_arena)
+#define arena_free_d() arena_free(&_def_arena)
+#define arena_free_last_blk_d() arena_free_last_blk(&_def_arena)
+#define arena_free_bytes_d(BYTES) arena_free_bytes((BYTES), &_def_arena)
+#define arena_alloc_d(SIZE) arena_alloc((SIZE), &_def_arena)
+#define arena_calloc_d(NMEMB, SIZE) arena_calloc((NMEMB), (SIZE), &_def_arena)
+#define arena_sanity_check_d() arena_sanity_check(&_def_arena)
+#define arena_print_d(NAME) arena_print(&_def_arena, (NAME))
 #endif
 
 #endif /* _ARENALLOC_H_ */
